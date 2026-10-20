@@ -4,24 +4,24 @@ Dự án quản lý thư viện cho bài cuối kỳ Lập trình hướng đố
 
 ## 🔗 Xem web trực tiếp
 
-[👉 Mở Library Management System](https://nguyennguyentinh12082005-blip.github.io/oop-library-management/index.html)
+[👉 Mở Library Management System](https://phonq-loandin.github.io/Library-Management-System-LMS-/)
 
 Địa chỉ trực tiếp để sao chép:
 
 ```text
-https://nguyennguyentinh12082005-blip.github.io/oop-library-management/index.html
+https://phonq-loandin.github.io/Library-Management-System-LMS-/
 ```
 
-Đây là địa chỉ truy cập trực tiếp trang `index.html` trên GitHub Pages hiện có, không phải một hosting độc lập. Link gốc vẫn là [trang chủ](https://nguyennguyentinh12082005-blip.github.io/oop-library-management/).
+Web được triển khai bằng GitHub Pages từ repo [phonq-loandin/Library-Management-System-LMS-](https://github.com/phonq-loandin/Library-Management-System-LMS-). Trang `index.html` được mở tự động khi truy cập địa chỉ trên.
 
-Nếu không mở được, hãy kiểm tra URL không chứa ký tự Markdown như `**`, thử tải lại bằng `Ctrl+F5`, hoặc mở bằng cửa sổ ẩn danh. Nếu vẫn gặp lỗi, ghi lại thông báo lỗi để xác định nguyên nhân; thay `/` bằng `/index.html` không khắc phục được sự cố hosting hoặc kết nối mạng.
+Nếu vừa cập nhật mã nguồn, đợi workflow **Deploy to GitHub Pages** hoàn tất trong tab **Actions**, rồi tải lại trang bằng `Ctrl+F5`.
 
 Mở link trên trình duyệt để dùng app ngay mà không cần cài đặt gì. Đăng nhập bằng tài khoản admin mặc định (`admin` / `admin`) hoặc bấm **Đăng ký độc giả** để tạo tài khoản mới.
 
 ## Cấu trúc dự án
 
 ```text
-TL CK/
+Library-Management-System-LMS-/
 ├── main.cpp                 # Ứng dụng console C++ (các lớp OOP: Date, Document, Reader, ...)
 ├── web_server.cpp           # Web server C++ dùng Winsock (chỉ chạy trên Windows)
 ├── web/                     # Bản web tĩnh (HTML/CSS/JS) chạy bằng localStorage
@@ -29,10 +29,23 @@ TL CK/
 │   ├── app.js
 │   ├── styles.css
 │   └── gutenberg-catalog.js # Dữ liệu sách mẫu từ Project Gutenberg
-├── scripts/                 # Script Python/Node hỗ trợ (build catalog, báo cáo, sơ đồ)
+├── scripts/                 # Công cụ Python tạo/cập nhật dữ liệu sách
+├── docs/                    # Báo cáo đồ án và tài liệu thiết kế OOP
+├── SoDo_Flowchart/           # Sơ đồ luồng xử lý và file nguồn draw.io
+├── report_assets/           # Hình minh họa và nguồn sơ đồ thiết kế hệ thống
 ├── .github/workflows/       # GitHub Actions deploy lên GitHub Pages
 └── README.md
 ```
+
+Mã nguồn chính là `main.cpp`, `web_server.cpp` và toàn bộ thư mục `web/` (gồm dữ liệu sách, ảnh bìa, logo và giao diện). Giữ `.github/workflows/deploy.yml` để triển khai web và `.gitignore` để loại tệp sinh tự động.
+
+Thư mục `scripts/` hỗ trợ cập nhật dữ liệu, không cần chạy để khởi động ứng dụng:
+
+- `harvest_books.py` thu thập dữ liệu sách và ảnh bìa; `harvested_books.json` là dữ liệu đầu vào cho `splice_books.py` và `finalize_catalog.py`.
+- `splice_books.py` thay danh sách sách mẫu trong `web/app.js`; `finalize_catalog.py` chọn 10 sách mẫu và dọn ảnh bìa theo danh sách đó.
+- `build_gutenberg_catalog.py`, `build_mixed_catalog.py`, `add_vn_books.py` tạo các bộ dữ liệu khác nhau cho `web/gutenberg-catalog.js`.
+
+Các script này có thể ghi đè dữ liệu mẫu hoặc ảnh bìa; chỉ chạy khi chủ động cập nhật danh mục. Báo cáo trong `docs/` và sơ đồ trong `SoDo_Flowchart/`, `report_assets/` được giữ để tra cứu thiết kế và phục vụ đồ án. Bản mã nguồn lồng trùng, thư mục tạm xử lý Word, bản thử chuyển đổi Word, log, tệp sao lưu draw.io và công cụ tạo/chuyển đổi báo cáo đã được dọn.
 
 ## Build và chạy phần C++
 
@@ -59,7 +72,7 @@ g++ -std=c++17 -O2 web_server.cpp -o library_web.exe -lws2_32
 Chạy static server trong thư mục `web`:
 
 ```powershell
-cd "E:\LTHDT_OOP\TL CK\web"
+cd web
 python -m http.server 4173
 ```
 

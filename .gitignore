@@ -19,3 +19,12 @@ Desktop.ini
 # Python
 __pycache__/
 *.pyc
+
+# Temporary report processing / scraping artifacts
+.codex_roundtrip_base/
+.codex_template_docx/
+.codex_tmp_docx/
+.scrape_tmp/
+*_roundtrip.docx
+*.bkp
+*.log
